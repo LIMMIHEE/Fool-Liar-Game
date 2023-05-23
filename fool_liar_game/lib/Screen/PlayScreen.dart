@@ -8,8 +8,11 @@ class PlayScreen extends StatefulWidget {
   final int playerCount;
   final int foolCount;
 
-  PlayScreen(
-      {required this.type, required this.playerCount, required this.foolCount});
+  const PlayScreen(
+      {super.key,
+      required this.type,
+      required this.playerCount,
+      required this.foolCount});
 
   @override
   State<PlayScreen> createState() => _PlayScreenState();
@@ -47,7 +50,7 @@ class _PlayScreenState extends State<PlayScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios,
               color: Colors.black45,
             ),
@@ -61,46 +64,50 @@ class _PlayScreenState extends State<PlayScreen> {
           children: <Widget>[
             Column(
               children: [
-                Text(
+                const Text(
                   "주제",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 Text(
                   widget.type,
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.w600),
                 )
               ],
             ),
-            Divider(),
+            const Divider(),
             (isOpen && nowPlayer < widget.playerCount)
-                ? Container(
+                ? SizedBox(
                     height: 200,
                     child: Column(
                       children: [
-                        Text("제시어",
+                        const Text("제시어",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 24)),
                         Text(
-                            "${foolIndexList.contains(nowPlayer) ? foolTopicWord : topicWord}",
-                            style: TextStyle(
+                            foolIndexList.contains(nowPlayer)
+                                ? foolTopicWord
+                                : topicWord,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 28)),
                         TextButton(
                             onPressed: () {
                               setState(() {
                                 isOpen = false;
                                 nowPlayer++;
-                                if (nowPlayer == widget.playerCount)
+                                if (nowPlayer == widget.playerCount) {
                                   isGameDone = true;
+                                }
                               });
                             },
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.black12,
                                   borderRadius: BorderRadius.circular(36)),
-                              margin: EdgeInsets.only(top: 26),
-                              padding: EdgeInsets.symmetric(
+                              margin: const EdgeInsets.only(top: 26),
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 18, horizontal: 24),
-                              child: Text(
+                              child: const Text(
                                 "확인완료!",
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.black),
@@ -112,26 +119,15 @@ class _PlayScreenState extends State<PlayScreen> {
                 : keyWordOpen
                     ? Column(
                         children: [
-                          Text(
-                            "진짜 키워드",
-                            style: TextStyle(fontSize: 20, color: Colors.black),
-                          ),
-                          Text(
-                            topicWord,
-                            style: TextStyle(fontSize: 24, color: Colors.black),
-                          ),
+                          KeywordOpenTextColumn(
+                              title: "진짜 키워드", subTitle: topicWord),
+                          KeywordOpenTextColumn(
+                              title: "라이어 키워드", subTitle: foolTopicWord),
                           Padding(
                             padding: const EdgeInsets.only(top: 40),
-                            child: Text(
-                              "라이어 키워드",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
-                            ),
+                            child: KeywordOpenTextColumn(
+                                title: "라이어 키워드", subTitle: foolTopicWord),
                           ),
-                          Text(
-                            foolTopicWord,
-                            style: TextStyle(fontSize: 24, color: Colors.black),
-                          )
                         ],
                       )
                     : GestureDetector(
@@ -143,17 +139,16 @@ class _PlayScreenState extends State<PlayScreen> {
                               keyWordOpen = true;
                             }
                           });
-                          print("능능?");
                         },
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.black54,
                               borderRadius: BorderRadius.circular(16)),
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               vertical: 120, horizontal: 80),
                           child: Text(
                             isGameDone ? "각 키워드\n확인하기" : "2초 이상\n화면을 눌러주세요.",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18,
                                 color: Colors.white),
@@ -170,5 +165,31 @@ class _PlayScreenState extends State<PlayScreen> {
     foolTopicWord = topicList.elementAt(Random().nextInt(topicList.length));
 
     if (foolTopicWord == topicWord) setFoolWord(topicList);
+  }
+}
+
+class KeywordOpenTextColumn extends StatelessWidget {
+  const KeywordOpenTextColumn({
+    required this.title,
+    required this.subTitle,
+  });
+
+  final String title;
+  final String subTitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontSize: 20, color: Colors.black),
+        ),
+        Text(
+          subTitle,
+          style: const TextStyle(fontSize: 24, color: Colors.black),
+        ),
+      ],
+    );
   }
 }

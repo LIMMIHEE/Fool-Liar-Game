@@ -8,7 +8,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var MenuType = ["음식", "영화", "직업", "동물", "장소", "나라"];
+  final menuType = ["음식", "영화", "직업", "동물", "장소", "나라"];
   String? selectedValue;
   int personCount = 3;
   int foolCount = 1;
@@ -20,83 +20,35 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('게임 인원', style: TextStyle(fontSize: 20)),
-            Container(
-              margin: EdgeInsets.only(bottom: 46),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    child: Icon(
-                      Icons.remove,
-                      size: 42,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        if (personCount > 3) personCount--;
-                      });
-                    },
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    child: Text(
-                      "$personCount",
-                      style: TextStyle(fontSize: 36),
-                    ),
-                  ),
-                  GestureDetector(
-                    child: Icon(
-                      Icons.add,
-                      size: 42,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        personCount++;
-                      });
-                    },
-                  )
-                ],
-              ),
+            const Text('게임 인원', style: TextStyle(fontSize: 20)),
+            UpDownContainer(
+              count: personCount,
+              upAction: () {
+                setState(() {
+                  personCount++;
+                });
+              },
+              downAction: () {
+                setState(() {
+                  if (personCount > 3) personCount--;
+                });
+              },
             ),
-            Text('라이어 인원', style: TextStyle(fontSize: 20)),
-            Container(
-              margin: EdgeInsets.only(bottom: 46),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    child: Icon(
-                      Icons.remove,
-                      size: 42,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        if (foolCount > 1) foolCount--;
-                      });
-                    },
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    child: Text(
-                      "$foolCount",
-                      style: TextStyle(fontSize: 36),
-                    ),
-                  ),
-                  GestureDetector(
-                    child: Icon(
-                      Icons.add,
-                      size: 42,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        if (personCount - 1 > foolCount) foolCount++;
-                      });
-                    },
-                  )
-                ],
-              ),
+            const Text('라이어 인원', style: TextStyle(fontSize: 20)),
+            UpDownContainer(
+              count: foolCount,
+              upAction: () {
+                setState(() {
+                  if (personCount - 1 > foolCount) foolCount++;
+                });
+              },
+              downAction: () {
+                setState(() {
+                  if (foolCount > 1) foolCount--;
+                });
+              },
             ),
-            Text('주제', style: TextStyle(fontSize: 20)),
+            const Text('주제', style: TextStyle(fontSize: 20)),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 26),
               child: DropdownButtonFormField2(
@@ -112,15 +64,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   '주제를 선택 해주세요',
                   style: TextStyle(fontSize: 14),
                 ),
-                items: MenuType.map((item) => DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    )).toList(),
+                items: menuType
+                    .map((item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ))
+                    .toList(),
                 validator: (value) {
                   if (value == null) {
                     return '주제를 선택 해주세요.';
@@ -162,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   onPressed: () {
                     if (selectedValue == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('주제를 선택 해주세요.'),
                       ));
 
@@ -177,8 +131,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 playerCount: personCount,
                                 foolCount: foolCount)));
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
+                  child: const Padding(
+                    padding: EdgeInsets.all(12),
                     child: Text(
                       "확인",
                       style: TextStyle(color: Colors.black, fontSize: 18),
@@ -187,6 +141,51 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class UpDownContainer extends StatelessWidget {
+  const UpDownContainer({
+    required this.count,
+    required this.upAction,
+    required this.downAction,
+  });
+
+  final Function() upAction;
+  final Function() downAction;
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 46),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(
+            child: const Icon(
+              Icons.remove,
+              size: 42,
+            ),
+            onTap: () => downAction(),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            child: Text(
+              "$count",
+              style: const TextStyle(fontSize: 36),
+            ),
+          ),
+          GestureDetector(
+            child: const Icon(
+              Icons.add,
+              size: 42,
+            ),
+            onTap: () => upAction,
+          )
+        ],
       ),
     );
   }
