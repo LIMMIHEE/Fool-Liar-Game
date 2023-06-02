@@ -9,6 +9,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final menuType = ["음식", "영화", "직업", "동물", "장소", "나라"];
+  final border = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(15),
+  );
   String? selectedValue;
   int personCount = 3;
   int foolCount = 1;
@@ -55,9 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: InputDecoration(
                   isDense: true,
                   contentPadding: EdgeInsets.zero,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
+                  focusedBorder:border,
+                  border: border,
                 ),
                 isExpanded: true,
                 hint: const Text(
@@ -109,17 +111,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 26),
-              child: OutlinedButton(
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0))),
-                  ),
-                  onPressed: () {
+              child: InkWell(
+                  splashColor:Colors.transparent,
+                  onTap: () {
                     if (selectedValue == null) {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('주제를 선택 해주세요.'),
+                        content: Text('주제를 선택해주세요.'),
                       ));
-
                       return;
                     }
 
@@ -131,11 +129,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 playerCount: personCount,
                                 foolCount: foolCount)));
                   },
-                  child: const Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Text(
-                      "확인",
-                      style: TextStyle(color: Colors.black, fontSize: 18),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color:Colors.black87,
+                      borderRadius: BorderRadius.circular(30)
+                    ),
+                    child: const Text(
+                      "게임 시작!",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   )),
             )
