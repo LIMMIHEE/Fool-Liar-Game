@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fool_liar_game/Screen/PlayScreen.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -148,6 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class UpDownContainer extends StatelessWidget {
   const UpDownContainer({
+    super.key,
     required this.count,
     required this.upAction,
     required this.downAction,
@@ -183,7 +186,7 @@ class UpDownContainer extends StatelessWidget {
               Icons.add,
               size: 42,
             ),
-            onTap: () => upAction,
+            onTap: () => upAction(),
           )
         ],
       ),
