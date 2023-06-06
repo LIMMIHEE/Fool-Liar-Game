@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mirimhee.liargamefool.fool_liar_game">
    <application
-        android:label="fool_liar_game"
+        android:label="바보 라이어 게임"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
