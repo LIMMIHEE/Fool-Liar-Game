@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fool_liar_game/Screen/HomeScreen.dart';
+import 'package:fool_liar_game/screen/home_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,7 +8,8 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     );
   }

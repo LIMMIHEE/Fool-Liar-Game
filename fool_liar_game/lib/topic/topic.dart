@@ -1,4 +1,4 @@
-const mapList = {
+const topicMap = {
   "음식": [
     "김치",
     "볶음밥",

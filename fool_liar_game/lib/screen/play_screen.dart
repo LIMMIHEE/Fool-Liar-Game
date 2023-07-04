@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:fool_liar_game/Topic/Topic.dart';
+import 'package:fool_liar_game/topic/topic.dart';
 
 class PlayScreen extends StatefulWidget {
   final String type;
@@ -38,7 +38,7 @@ class _PlayScreenState extends State<PlayScreen> {
       if (!foolIndexList.contains(foolIndex)) foolIndexList.add(foolIndex);
     }
 
-    List<String> topicList = mapList[widget.type]!;
+    List<String> topicList = topicMap[widget.type]!;
     topicWord = topicList.elementAt(Random().nextInt(topicList.length));
     setFoolWord(topicList);
   }

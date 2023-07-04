@@ -1,6 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:fool_liar_game/Screen/PlayScreen.dart';
+import 'package:fool_liar_game/screen/play_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
